@@ -24,18 +24,16 @@ public class BallController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if collision is with a paddle
-        if (collision.gameObject.CompareTag("Paddle"))
+        // Check collision with walls
+
+        if (collision.gameObject.CompareTag("LeftWall")) //Opposing Player's Wall
         {
-            // Reverse X direction and preserve speed
-            Vector2 velocity = rb.velocity;
-            velocity.x = -velocity.x; // Reverse horizontal direction
-
-            // Add a slight random variation to the Y velocity for unpredictability
-            velocity.y += Random.Range(-0.5f, 0.5f);
-
-            // Normalize velocity to maintain constant speed
-            rb.velocity = velocity.normalized * speed;
+            //Add Score to the Player's account
+            GameManager.instance.AddScoreToPlayerAccount();
+        }
+        else if (collision.gameObject.CompareTag("RightWall")) //Player's Wall
+        {
+            //Add Score to the Opposing Player's account
         }
     }
 }

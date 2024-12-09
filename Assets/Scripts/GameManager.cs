@@ -24,17 +24,25 @@ public class GameManager : MonoBehaviour
     //when the user clicks the PlayAgain button.
     public GameObject player;
 
-    //Score text to display the current score.
-    public TextMeshProUGUI scoreText;
+    //Player Score text to display the current score of the Player.
+    public TextMeshProUGUI playerAScoreText;
+
+    //Opposing Player Score text to display the current score of the opposing Player.
+    public TextMeshProUGUI playerBScoreText;
 
     //This variable keeps track of the game status i.e., if it is over or not.
     private bool isGameOver = true;
 
-    //This variable keeps track of the score.
-    private int score = 0;
+    //This variable keeps track of the player's score.
+    private int playerAScore = 0;
+
+    //This variable keeps track of the opposing player's score.
+    private int playerBScore = 0;
 
     // The score required to reach the next level
     private int scoreToNextLevel = 10;
+
+
 
     void Awake()
     {
@@ -82,32 +90,37 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
 
-        score = 0; // Set the score to zero.
-        scoreText.text = "Score: " + 0; // Display the zero score in the text view.
+        // Set the scores to zero.
+        playerAScore = 0;
+        playerBScore = 0;
+
+        // Display the zero score in the text views.
+        playerAScoreText.text = "0";
+        playerBScoreText.text = "0";
 
         isGameOver = false; // Game is no longer over.
 
-        //Reset the player's position on y-axis.
-        player.transform.position = new Vector2(player.transform.position.x, 0);
-
-        player.SetActive(true); // Activate the Player.
+        //TODO: Reset the ball's position.
     }
 
-    //This function is called when the Enemy hits the Player.
+    //This function is called when the Score target is achieved by any Player.
     public void GameOver()
     {
-        // Play the destruction sound.
-        SoundManager.instance.PlayDestroySound();
+        //TODO: Play the celebration sound.
+        //SoundManager.instance.PlayDestroySound();
 
-        // Show GameOver text and PlayAgain button.
+        // Show Congratulations message to Winner.
         gameOverContent.SetActive(true);
 
+        
+        //TODO: Show controls with animations
         //Trigger animation to show UI Controls
-        UIAnimationsManager.instance.ShowGameOverUIControls();
+        //UIAnimationsManager.instance.ShowGameOverUIControls();
 
         isGameOver = true; //Game is over.
 
-        player.SetActive(false); //De-Activate the Player.
+        //De-Activate the Ball and handles.
+        //player.SetActive(false); 
 
     }
 
@@ -118,27 +131,19 @@ public class GameManager : MonoBehaviour
         return isGameOver;
     }
 
+    //This function is called whenever the Ball hits the Player B's wall.
 
-    //This function is called whenever the Player hits the Pipe.
-    public void AddScore()
-    {
+    public void AddScoreToPlayerAAccount() {
+        playerAScore++; //Increase the score.
 
-        score++; //Increase the score.
-
-        scoreText.text = "Score: " + score.ToString(); //Show the incremented score on UI.
-
-        //Check if the passing score is achieved for level 1
-        if (score == scoreToNextLevel)
-        {
-            ProceedToNextLevel(); //Open to the next level
-        }
+        playerAScoreText.text = playerAScore.ToString(); //Show the incremented score on UI.
     }
 
-    //This function comprises the logic of moving to next level 2
-    public void ProceedToNextLevel()
+    //This function is called whenever the Ball hits the Player A's wall
+    public void AddScoreToPlayerBAccount()
     {
+        playerBScore++; //Increase the score.
 
-        //Navigate to the next level (Scene2)
-        SceneManager.LoadScene("Level2");
+        playerBScoreText.text = playerBScore.ToString(); //Show the incremented score on UI.
     }
 }
