@@ -12,31 +12,6 @@ public class PaddleController : MonoBehaviour
 
     private float movement; // Records the direction and movement speed of the paddle.
 
-    private void Start()
-    {
-        //To make sure the paddles are visible within the screen bounds
-        PositionPaddle(); 
-    }
-
-    void PositionPaddle()
-    {
-        // Calculate camera boundaries (in world space)
-        float screenHeight = Camera.main.orthographicSize;
-        float screenWidth = Camera.main.orthographicSize * Camera.main.aspect;
-
-        // Position paddles on the left or right side of the screen
-        if (isPlayerA)
-        {
-            // Position the left paddle at the left edge
-            transform.position = new Vector3(-screenWidth + 0.5f , 0f, 0f);
-        }
-        else
-        {
-            // Position the right paddle at the right edge
-            transform.position = new Vector3(screenWidth - 0.5f, 0f, 0f);
-        }
-    }
-
     void Update()
     {
         // If this paddle belongs to the player B
@@ -48,7 +23,7 @@ public class PaddleController : MonoBehaviour
         }
         else
         {
-            // If it’s the player B' paddle, use arrow keys (UpArrow to move up, DownArrow to move down)
+            // If itï¿½s the player B' paddle, use arrow keys (UpArrow to move up, DownArrow to move down)
             float inputY = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
             movement = inputY * speed * Time.deltaTime; // Apply the movement calculation
         }
