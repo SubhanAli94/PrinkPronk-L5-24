@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PaddleController : MonoBehaviour
 {
@@ -12,21 +13,26 @@ public class PaddleController : MonoBehaviour
 
     private float movement; // Records the direction and movement speed of the paddle.
 
+    public InputAction playerInputAction; //To Detect the input action
+
+
+    //Called every time the GameObject is enabled in the scene.
+    private void OnEnable()
+    {
+        playerInputAction.Enable();
+    }
+
+    //Called every time the GameObject is disabled in the scene.
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
+
     void Update()
     {
-        // If this paddle belongs to the player B
-        if (isPlayerA)
-        {
-            // Get the input for the player A (W to move up, S to move down)
-            float inputY = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
-            movement = inputY * speed * Time.deltaTime; // Calculate movement with speed and deltaTime for smooth movement
-        }
-        else
-        {
-            // If it�s the player B' paddle, use arrow keys (UpArrow to move up, DownArrow to move down)
-            float inputY = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
-            movement = inputY * speed * Time.deltaTime; // Apply the movement calculation
-        }
+        // Get the input for the player
+        // And Multiply it with speed and deltaTime for smooth movement
+        movement = playerInputAction.ReadValue<Vector2>().y * speed * Time.deltaTime;
 
         // Apply the calculated movement to the paddle's position
         transform.Translate(0, movement, 0);
