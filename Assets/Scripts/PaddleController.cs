@@ -6,24 +6,24 @@ public class PaddleController : MonoBehaviour
 {
     public float speed = 10f; // Speed of paddle movement
 
-    // Check if the paddle belongs to the opposing player
-    // We're using the same script for both the player and the opposing player.
-    public bool isOpposingPlayer;
+    // Check if the paddle belongs to the Player A
+    // We're using the same script for both the player A & B.
+    public bool isPlayerA;
 
     private float movement; // Records the direction and movement speed of the paddle.
 
     void Update()
     {
-        // If this paddle belongs to the opposing player
-        if (isOpposingPlayer)
+        // If this paddle belongs to the player B
+        if (isPlayerA)
         {
-            // Get the input for the opposing player (W to move up, S to move down)
+            // Get the input for the player A (W to move up, S to move down)
             float inputY = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
             movement = inputY * speed * Time.deltaTime; // Calculate movement with speed and deltaTime for smooth movement
         }
         else
         {
-            // If it’s the player paddle, use arrow keys (UpArrow to move up, DownArrow to move down)
+            // If it’s the player B' paddle, use arrow keys (UpArrow to move up, DownArrow to move down)
             float inputY = Input.GetKey(KeyCode.UpArrow) ? 1f : Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
             movement = inputY * speed * Time.deltaTime; // Apply the movement calculation
         }

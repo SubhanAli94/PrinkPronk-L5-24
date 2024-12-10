@@ -12,17 +12,9 @@ public class GameManager : MonoBehaviour
     //A Static variable which will hold the copy/instance of GameManager class.
     public static GameManager instance;
 
-    //This game object is the parent of GameOverText and PlayAgainButton.
-    //We need only their parent to display/hide both of them.
-    public GameObject gameOverContent;
-
     //This game object is the parent of StartGameText and PlayButton.
     //We need only their parent to display/hide both of them.
     public GameObject startGameContent;
-
-    //The Player gameobject is needed to activate the player again
-    //when the user clicks the PlayAgain button.
-    public GameObject player;
 
     //Player Score text to display the current score of the Player.
     public TextMeshProUGUI playerAScoreText;
@@ -40,9 +32,11 @@ public class GameManager : MonoBehaviour
     private int playerBScore = 0;
 
     // The score required to reach the next level
-    private int scoreToNextLevel = 10;
+    private int targetScore = 5;
 
-
+    // Message for the winner
+    // We'll access it in Level 2, just to show message
+    public string winningMessage;
 
     void Awake()
     {
@@ -64,6 +58,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        //Check if either of the players score the target score.
+        if (playerAScore == targetScore || playerBScore == targetScore) {
+
+            winningMessage = playerAScore == targetScore ? "Congratulations\nPlayer A" : "Congratulations\nPlayer B";
+            ProceedToNextLevel(); // Proceed to next level
+        }
+    }
+
     public void OnHideGameStartUIAnimationEnd()
     {
 
@@ -73,23 +77,11 @@ public class GameManager : MonoBehaviour
             startGameContent.SetActive(false); // Hide Game Title text and Play button.
         }
 
-        StartGame();
-    }
-
-    public void OnHideGameOverUIAnimationEnd()
-    {
-
-        if (gameOverContent.activeSelf)
-        {
-            gameOverContent.SetActive(false); // Hide Game Over text and PlayAgain button.
-        }
-
-        StartGame();
+        StartGame(); //Start the game
     }
 
     public void StartGame()
     {
-
         // Set the scores to zero.
         playerAScore = 0;
         playerBScore = 0;
@@ -97,43 +89,12 @@ public class GameManager : MonoBehaviour
         // Display the zero score in the text views.
         playerAScoreText.text = "0";
         playerBScoreText.text = "0";
-
-        isGameOver = false; // Game is no longer over.
-
-        //TODO: Reset the ball's position.
-    }
-
-    //This function is called when the Score target is achieved by any Player.
-    public void GameOver()
-    {
-        //TODO: Play the celebration sound.
-        //SoundManager.instance.PlayDestroySound();
-
-        // Show Congratulations message to Winner.
-        gameOverContent.SetActive(true);
-
-        
-        //TODO: Show controls with animations
-        //Trigger animation to show UI Controls
-        //UIAnimationsManager.instance.ShowGameOverUIControls();
-
-        isGameOver = true; //Game is over.
-
-        //De-Activate the Ball and handles.
-        //player.SetActive(false); 
-
-    }
-
-    // Function to check if the game is over
-    //This fucntion is called whenever we try to spawn a new Pipe.
-    public bool IsGameOver()
-    {
-        return isGameOver;
     }
 
     //This function is called whenever the Ball hits the Player B's wall.
 
-    public void AddScoreToPlayerAAccount() {
+    public void AddScoreToPlayerAAccount()
+    {
         playerAScore++; //Increase the score.
 
         playerAScoreText.text = playerAScore.ToString(); //Show the incremented score on UI.
@@ -145,5 +106,14 @@ public class GameManager : MonoBehaviour
         playerBScore++; //Increase the score.
 
         playerBScoreText.text = playerBScore.ToString(); //Show the incremented score on UI.
+    }
+
+
+    //This function comprises the logic of moving to next level 2
+    public void ProceedToNextLevel()
+    {
+
+        //Navigate to the next level (Scene2)
+        SceneManager.LoadScene("Level2");
     }
 }

@@ -26,14 +26,15 @@ public class BallController : MonoBehaviour
     {
         // Check collision with walls
 
-        if (collision.gameObject.CompareTag("LeftWall")) //Opposing Player's Wall
+        if (collision.gameObject.CompareTag("PlayerAWall")) //Player A's Wall
         {
-            //Add Score to the Player's account
-            GameManager.instance.AddScoreToPlayerAccount();
+            //Add Score to the Player B's account
+            GameManager.instance.AddScoreToPlayerBAccount();
         }
-        else if (collision.gameObject.CompareTag("RightWall")) //Player's Wall
+        else if (collision.gameObject.CompareTag("PlayerBWall")) //Player B' Wall
         {
-            //Add Score to the Opposing Player's account
+            //Add Score to the Opposing Player A's account
+            GameManager.instance.AddScoreToPlayerAAccount();
         }
     }
 }

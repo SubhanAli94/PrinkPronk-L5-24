@@ -65,23 +65,5 @@ public class UIAnimationsManager : MonoBehaviour
 
         gameUIContentAnimator.SetTrigger("ShowGameOverUIControlsTrigger"); // Trigger Animation
     }
-
-    //Start animation to hide the "Game Over" text and "Play Again" button when the user
-    //clicks on the "Play Again" button.
-    public void HideGameOverUIControls()
-    {
-        // "HideGameOverUIControlsTrigger": This trigger is set in the Animator window
-        // for HideGameOverUIAnimation Animation.
-        gameUIContentAnimator.SetTrigger("HideGameOverUIControlsTrigger");
-    }
-
-    //This function is called when the "HideGameStartUIAnimation" ends. For reference, check
-    //the last key frame in the Animation window for the "HideGameStartUIAnimation" animation.
-    public void OnHideGameOverUIAnimationEnd()
-    {
-        //Call the "OnHideGameOverUIAnimationEnd" located inside the GameManager. This
-        //function contains the logic to restart the game.
-        GameManager.instance.OnHideGameOverUIAnimationEnd();
-    }
     #endregion
 }
